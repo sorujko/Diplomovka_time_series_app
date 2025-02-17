@@ -1,0 +1,7 @@
+{
+    "trend": "add",
+    "damped_trend": false,
+    "smoothing_level": 0.7,
+    "smoothing_slope": 0.7,
+    "initialization_method": null
+}

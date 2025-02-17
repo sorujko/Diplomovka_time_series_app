@@ -1,0 +1,9 @@
+{
+    "activation": "relu",
+    "batch_size": 32,
+    "dropout_rate": 0.5,
+    "learning_rate": 0.01,
+    "lstm_units": 100,
+    "optimizer": "adam",
+    "sequence_length": 5
+}

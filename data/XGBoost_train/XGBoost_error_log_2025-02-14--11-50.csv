@@ -1,0 +1,57 @@
+Country,Indicator,Model,RMSE,Rank
+Czech Republic,GDP per Capita (USD),XGBoost,7656.7168462509435,1
+Czech Republic,GDP (USD),XGBoost,83833068818.53732,1
+Czech Republic,Inflation (CPI),XGBoost,3.3065014006266775,1
+Czech Republic,Unemployment Rate (%),XGBoost,1.7968889836489155,1
+Czech Republic,GDP growth (annual %),XGBoost,3.0587102411590976,1
+Czech Republic,Imports of goods and services (% of GDP),XGBoost,4.6093760621023385,1
+Czech Republic,Exports of goods and services (% of GDP),XGBoost,5.231517129620981,1
+Hungary,GDP per Capita (USD),XGBoost,4019.357515720135,1
+Hungary,GDP (USD),XGBoost,35730722051.321365,1
+Hungary,Inflation (CPI),XGBoost,3.309117304351193,1
+Hungary,Unemployment Rate (%),XGBoost,1.5935311287426523,1
+Hungary,GDP growth (annual %),XGBoost,2.8262065614520333,1
+Hungary,Imports of goods and services (% of GDP),XGBoost,6.416922576728828,1
+Hungary,Exports of goods and services (% of GDP),XGBoost,4.01199960414215,1
+Poland,GDP per Capita (USD),XGBoost,5489.264536568883,1
+Poland,GDP (USD),XGBoost,194781588897.4889,1
+Poland,Inflation (CPI),XGBoost,4.648149426483283,1
+Poland,Unemployment Rate (%),XGBoost,2.203149822276241,1
+Poland,GDP growth (annual %),XGBoost,2.7000054135300444,1
+Poland,Imports of goods and services (% of GDP),XGBoost,6.585950028301902,1
+Poland,Exports of goods and services (% of GDP),XGBoost,5.555411553675147,1
+Slovakia,GDP per Capita (USD),XGBoost,4396.425370255328,1
+Slovakia,GDP (USD),XGBoost,23340486075.796112,1
+Slovakia,Inflation (CPI),XGBoost,4.60687814789908,1
+Slovakia,Unemployment Rate (%),XGBoost,6.309726345582057,1
+Slovakia,GDP growth (annual %),XGBoost,2.842955807060275,1
+Slovakia,Imports of goods and services (% of GDP),XGBoost,7.390708181434229,1
+Slovakia,Exports of goods and services (% of GDP),XGBoost,4.535953432843201,1
+Germany,GDP per Capita (USD),XGBoost,6085.118234149008,1
+Germany,GDP (USD),XGBoost,519853003291.45264,1
+Germany,Inflation (CPI),XGBoost,0.8600822678883141,1
+Germany,Unemployment Rate (%),XGBoost,1.0011921244923003,1
+Germany,GDP growth (annual %),XGBoost,0.9973209394635651,1
+Germany,Imports of goods and services (% of GDP),XGBoost,2.5675050622163904,1
+Germany,Exports of goods and services (% of GDP),XGBoost,1.2707406072509095,1
+Austria,GDP per Capita (USD),XGBoost,4610.4261468944205,1
+Austria,GDP (USD),XGBoost,59023871723.771065,1
+Austria,Inflation (CPI),XGBoost,1.500504134752181,1
+Austria,Unemployment Rate (%),XGBoost,0.510572674579547,1
+Austria,GDP growth (annual %),XGBoost,2.7666330179753675,1
+Austria,Imports of goods and services (% of GDP),XGBoost,4.269137458899692,1
+Austria,Exports of goods and services (% of GDP),XGBoost,3.2226209674956667,1
+France,GDP per Capita (USD),XGBoost,2616.5300521013437,1
+France,GDP (USD),XGBoost,159593904849.9213,1
+France,Inflation (CPI),XGBoost,1.0314045905422689,1
+France,Unemployment Rate (%),XGBoost,0.7825386042261994,1
+France,GDP growth (annual %),XGBoost,2.8116878944174806,1
+France,Imports of goods and services (% of GDP),XGBoost,5.337352422012753,1
+France,Exports of goods and services (% of GDP),XGBoost,4.079190878972534,1
+Italy,GDP per Capita (USD),XGBoost,2020.5640444120233,1
+Italy,GDP (USD),XGBoost,143880064816.39005,1
+Italy,Inflation (CPI),XGBoost,1.7825775278698064,1
+Italy,Unemployment Rate (%),XGBoost,0.5453657170749315,1
+Italy,GDP growth (annual %),XGBoost,3.0321935921277947,1
+Italy,Imports of goods and services (% of GDP),XGBoost,4.699329567885899,1
+Italy,Exports of goods and services (% of GDP),XGBoost,4.042794990752186,1

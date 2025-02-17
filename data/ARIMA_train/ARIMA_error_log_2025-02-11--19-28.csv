@@ -1,0 +1,57 @@
+Country,Indicator,Model,RMSE,Rank
+Czech Republic,GDP per Capita (USD),ARIMA,3913.336586408993,1
+Czech Republic,GDP (USD),ARIMA,36865542548.71162,1
+Czech Republic,Inflation (CPI),ARIMA,3.0687650857665334,1
+Czech Republic,Unemployment Rate (%),ARIMA,0.5737018260347404,1
+Czech Republic,GDP growth (annual %),ARIMA,2.9395814634318773,1
+Czech Republic,Imports of goods and services (% of GDP),ARIMA,3.2630140808634294,1
+Czech Republic,Exports of goods and services (% of GDP),ARIMA,2.3703462175411616,1
+Hungary,GDP per Capita (USD),ARIMA,1603.5633153749843,1
+Hungary,GDP (USD),ARIMA,15075947156.679167,1
+Hungary,Inflation (CPI),ARIMA,5.450299954172996,1
+Hungary,Unemployment Rate (%),ARIMA,0.34251684821265393,1
+Hungary,GDP growth (annual %),ARIMA,3.0105582579266073,1
+Hungary,Imports of goods and services (% of GDP),ARIMA,5.682590112526938,1
+Hungary,Exports of goods and services (% of GDP),ARIMA,3.9094943534081277,1
+Poland,GDP per Capita (USD),ARIMA,2982.1025293391235,1
+Poland,GDP (USD),ARIMA,132486788255.14804,1
+Poland,Inflation (CPI),ARIMA,4.528207669965858,1
+Poland,Unemployment Rate (%),ARIMA,0.39943086394797966,1
+Poland,GDP growth (annual %),ARIMA,2.6304132934172033,1
+Poland,Imports of goods and services (% of GDP),ARIMA,3.4948557852904893,1
+Poland,Exports of goods and services (% of GDP),ARIMA,2.2352279831352986,1
+Slovakia,GDP per Capita (USD),ARIMA,1251.9944183170005,1
+Slovakia,GDP (USD),ARIMA,10144145938.016191,1
+Slovakia,Inflation (CPI),ARIMA,2.499847707985113,1
+Slovakia,Unemployment Rate (%),ARIMA,0.8199612194149795,1
+Slovakia,GDP growth (annual %),ARIMA,2.1238545927661994,1
+Slovakia,Imports of goods and services (% of GDP),ARIMA,6.122735136064966,1
+Slovakia,Exports of goods and services (% of GDP),ARIMA,3.4042972098562654,1
+Germany,GDP per Capita (USD),ARIMA,2695.380423099216,1
+Germany,GDP (USD),ARIMA,205714748749.46674,1
+Germany,Inflation (CPI),ARIMA,1.5848302056848866,1
+Germany,Unemployment Rate (%),ARIMA,0.30931914588899884,1
+Germany,GDP growth (annual %),ARIMA,1.7625503647521237,1
+Germany,Imports of goods and services (% of GDP),ARIMA,2.45255216639349,1
+Germany,Exports of goods and services (% of GDP),ARIMA,1.529586953615495,1
+Austria,GDP per Capita (USD),ARIMA,3287.579765918115,1
+Austria,GDP (USD),ARIMA,26135077793.664104,1
+Austria,Inflation (CPI),ARIMA,1.8925952955147105,1
+Austria,Unemployment Rate (%),ARIMA,0.6000873890718353,1
+Austria,GDP growth (annual %),ARIMA,2.7423945214213283,1
+Austria,Imports of goods and services (% of GDP),ARIMA,3.286455894792458,1
+Austria,Exports of goods and services (% of GDP),ARIMA,2.5391474739231565,1
+France,GDP per Capita (USD),ARIMA,2479.98447226924,1
+France,GDP (USD),ARIMA,171543705327.0983,1
+France,Inflation (CPI),ARIMA,1.4284923404437162,1
+France,Unemployment Rate (%),ARIMA,0.4279454052897023,1
+France,GDP growth (annual %),ARIMA,2.9380271830946074,1
+France,Imports of goods and services (% of GDP),ARIMA,2.5912145131249904,1
+France,Exports of goods and services (% of GDP),ARIMA,2.379274072516675,1
+Italy,GDP per Capita (USD),ARIMA,2655.15592504936,1
+Italy,GDP (USD),ARIMA,142167260843.90338,1
+Italy,Inflation (CPI),ARIMA,2.3026434534478883,1
+Italy,Unemployment Rate (%),ARIMA,0.6770270705483099,1
+Italy,GDP growth (annual %),ARIMA,3.8279049083652894,1
+Italy,Imports of goods and services (% of GDP),ARIMA,2.829506958798303,1
+Italy,Exports of goods and services (% of GDP),ARIMA,1.2140969388750766,1

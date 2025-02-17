@@ -1,0 +1,7 @@
+{
+    "changepoint_prior_scale": 0.01,
+    "seasonality_mode": "additive",
+    "changepoint_range": 0.9,
+    "n_changepoints": 30,
+    "yearly_seasonality": false
+}

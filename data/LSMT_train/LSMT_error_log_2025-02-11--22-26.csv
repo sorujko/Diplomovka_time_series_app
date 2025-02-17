@@ -1,0 +1,57 @@
+Country,Indicator,Model,RMSE,Rank
+Czech Republic,GDP per Capita (USD),LSTM,5751.692129690207,1
+Czech Republic,GDP (USD),LSTM,64349222500.118065,1
+Czech Republic,Inflation (CPI),LSTM,6.325321852714809,1
+Czech Republic,Unemployment Rate (%),LSTM,4.022170067723428,1
+Czech Republic,GDP growth (annual %),LSTM,3.602159959232286,1
+Czech Republic,Imports of goods and services (% of GDP),LSTM,14.09897679928902,1
+Czech Republic,Exports of goods and services (% of GDP),LSTM,21.928912785839874,1
+Hungary,GDP per Capita (USD),LSTM,12029.619056738089,1
+Hungary,GDP (USD),LSTM,30052384869.85414,1
+Hungary,Inflation (CPI),LSTM,8.580737670914456,1
+Hungary,Unemployment Rate (%),LSTM,4.163682133087984,1
+Hungary,GDP growth (annual %),LSTM,3.2115851758331875,1
+Hungary,Imports of goods and services (% of GDP),LSTM,5.805985072985973,1
+Hungary,Exports of goods and services (% of GDP),LSTM,4.933468594448748,1
+Poland,GDP per Capita (USD),LSTM,4849.36886074098,1
+Poland,GDP (USD),LSTM,128812354375.42406,1
+Poland,Inflation (CPI),LSTM,44.7154086141218,1
+Poland,Unemployment Rate (%),LSTM,7.648925565381772,1
+Poland,GDP growth (annual %),LSTM,3.2694351852565364,1
+Poland,Imports of goods and services (% of GDP),LSTM,4.9600063976786135,1
+Poland,Exports of goods and services (% of GDP),LSTM,2.7837210676932185,1
+Slovakia,GDP per Capita (USD),LSTM,3051.259946377001,1
+Slovakia,GDP (USD),LSTM,7450516891.719134,1
+Slovakia,Inflation (CPI),LSTM,6.529906323879828,1
+Slovakia,Unemployment Rate (%),LSTM,7.337942805923049,1
+Slovakia,GDP growth (annual %),LSTM,3.1150936688390862,1
+Slovakia,Imports of goods and services (% of GDP),LSTM,6.634078255417086,1
+Slovakia,Exports of goods and services (% of GDP),LSTM,4.695387550391683,1
+Germany,GDP per Capita (USD),LSTM,4076.133533841405,1
+Germany,GDP (USD),LSTM,209321020848.76248,1
+Germany,Inflation (CPI),LSTM,2.0255225670845545,1
+Germany,Unemployment Rate (%),LSTM,2.6471583218296373,1
+Germany,GDP growth (annual %),LSTM,2.285271052902354,1
+Germany,Imports of goods and services (% of GDP),LSTM,9.711947987815396,1
+Germany,Exports of goods and services (% of GDP),LSTM,8.279512125465834,1
+Austria,GDP per Capita (USD),LSTM,32773.69192825252,1
+Austria,GDP (USD),LSTM,110486354378.53865,1
+Austria,Inflation (CPI),LSTM,2.2507413602218205,1
+Austria,Unemployment Rate (%),LSTM,0.6015183203751825,1
+Austria,GDP growth (annual %),LSTM,2.8036323632865168,1
+Austria,Imports of goods and services (% of GDP),LSTM,5.805363366798544,1
+Austria,Exports of goods and services (% of GDP),LSTM,10.022921986764166,1
+France,GDP per Capita (USD),LSTM,16938.632473903017,1
+France,GDP (USD),LSTM,1859164831712.1572,1
+France,Inflation (CPI),LSTM,1.5055192099393284,1
+France,Unemployment Rate (%),LSTM,1.7062478667176597,1
+France,GDP growth (annual %),LSTM,3.04829858860263,1
+France,Imports of goods and services (% of GDP),LSTM,5.074093005182244,1
+France,Exports of goods and services (% of GDP),LSTM,4.184719001262384,1
+Italy,GDP per Capita (USD),LSTM,32711.878146375613,1
+Italy,GDP (USD),LSTM,1514834948579.267,1
+Italy,Inflation (CPI),LSTM,2.998548539764624,1
+Italy,Unemployment Rate (%),LSTM,1.1600203955653257,1
+Italy,GDP growth (annual %),LSTM,3.8787776155806086,1
+Italy,Imports of goods and services (% of GDP),LSTM,4.790179584230409,1
+Italy,Exports of goods and services (% of GDP),LSTM,4.824718150755651,1

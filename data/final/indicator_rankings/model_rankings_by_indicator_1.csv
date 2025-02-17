@@ -1,0 +1,36 @@
+Indicator,Model,1,2,3,4,5
+Exports of goods and services (% of GDP),ARIMA,3,4,1,0,0
+Exports of goods and services (% of GDP),Holt-Winters,1,3,3,1,0
+Exports of goods and services (% of GDP),LSTM,0,1,0,1,6
+Exports of goods and services (% of GDP),Prophet,3,0,1,3,1
+Exports of goods and services (% of GDP),XGBoost,1,0,3,3,1
+GDP (USD),ARIMA,4,3,0,1,0
+GDP (USD),Holt-Winters,0,3,4,1,0
+GDP (USD),LSTM,0,0,2,1,5
+GDP (USD),Prophet,3,2,1,2,0
+GDP (USD),XGBoost,1,0,1,3,3
+GDP growth (annual %),ARIMA,4,4,0,0,0
+GDP growth (annual %),Holt-Winters,0,1,5,2,0
+GDP growth (annual %),LSTM,0,0,2,5,1
+GDP growth (annual %),Prophet,0,2,1,0,5
+GDP growth (annual %),XGBoost,4,1,0,1,2
+GDP per Capita (USD),ARIMA,4,3,1,0,0
+GDP per Capita (USD),Holt-Winters,0,2,5,1,0
+GDP per Capita (USD),LSTM,0,1,0,2,5
+GDP per Capita (USD),Prophet,2,2,2,2,0
+GDP per Capita (USD),XGBoost,2,0,0,3,3
+Imports of goods and services (% of GDP),ARIMA,1,4,3,0,0
+Imports of goods and services (% of GDP),Holt-Winters,0,3,4,1,0
+Imports of goods and services (% of GDP),LSTM,2,0,1,1,4
+Imports of goods and services (% of GDP),Prophet,4,0,0,3,1
+Imports of goods and services (% of GDP),XGBoost,1,1,0,3,3
+Inflation (CPI),ARIMA,2,4,2,0,0
+Inflation (CPI),Holt-Winters,1,1,2,1,3
+Inflation (CPI),LSTM,0,0,2,3,3
+Inflation (CPI),Prophet,0,1,2,3,2
+Inflation (CPI),XGBoost,5,2,0,1,0
+Unemployment Rate (%),ARIMA,7,0,1,0,0
+Unemployment Rate (%),Holt-Winters,0,5,1,1,1
+Unemployment Rate (%),LSTM,0,1,1,1,5
+Unemployment Rate (%),Prophet,0,1,4,2,1
+Unemployment Rate (%),XGBoost,1,1,1,4,1

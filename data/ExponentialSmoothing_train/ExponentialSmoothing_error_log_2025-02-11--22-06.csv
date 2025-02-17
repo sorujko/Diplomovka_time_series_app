@@ -1,0 +1,57 @@
+Country,Indicator,Model,RMSE,Rank
+Czech Republic,GDP per Capita (USD),Holt-Winters,5005.565045104411,1
+Czech Republic,GDP (USD),Holt-Winters,65585383817.87267,1
+Czech Republic,Inflation (CPI),Holt-Winters,6.048436476833981,1
+Czech Republic,Unemployment Rate (%),Holt-Winters,0.8560240530746485,1
+Czech Republic,GDP growth (annual %),Holt-Winters,3.406510752578755,1
+Czech Republic,Imports of goods and services (% of GDP),Holt-Winters,4.458144064026979,1
+Czech Republic,Exports of goods and services (% of GDP),Holt-Winters,3.5362749985936177,1
+Hungary,GDP per Capita (USD),Holt-Winters,2145.9498635966547,1
+Hungary,GDP (USD),Holt-Winters,22196781955.38196,1
+Hungary,Inflation (CPI),Holt-Winters,5.586124828918858,1
+Hungary,Unemployment Rate (%),Holt-Winters,0.7907481046694961,1
+Hungary,GDP growth (annual %),Holt-Winters,3.4376926687067857,1
+Hungary,Imports of goods and services (% of GDP),Holt-Winters,6.523367597017239,1
+Hungary,Exports of goods and services (% of GDP),Holt-Winters,5.009664578510316,1
+Poland,GDP per Capita (USD),Holt-Winters,2902.120669268907,1
+Poland,GDP (USD),Holt-Winters,84750483330.46533,1
+Poland,Inflation (CPI),Holt-Winters,4.485524718952782,1
+Poland,Unemployment Rate (%),Holt-Winters,0.5987478581482897,1
+Poland,GDP growth (annual %),Holt-Winters,3.1937019277633474,1
+Poland,Imports of goods and services (% of GDP),Holt-Winters,4.067831746653835,1
+Poland,Exports of goods and services (% of GDP),Holt-Winters,2.301606719207133,1
+Slovakia,GDP per Capita (USD),Holt-Winters,2144.3020148643104,1
+Slovakia,GDP (USD),Holt-Winters,14825182616.90113,1
+Slovakia,Inflation (CPI),Holt-Winters,6.457854368291116,1
+Slovakia,Unemployment Rate (%),Holt-Winters,1.6544619721955671,1
+Slovakia,GDP growth (annual %),Holt-Winters,2.4732662574083966,1
+Slovakia,Imports of goods and services (% of GDP),Holt-Winters,6.322026351619822,1
+Slovakia,Exports of goods and services (% of GDP),Holt-Winters,4.153941777399658,1
+Germany,GDP per Capita (USD),Holt-Winters,3348.730307353777,1
+Germany,GDP (USD),Holt-Winters,237058682909.64783,1
+Germany,Inflation (CPI),Holt-Winters,2.2336901096414206,1
+Germany,Unemployment Rate (%),Holt-Winters,0.5780959668534436,1
+Germany,GDP growth (annual %),Holt-Winters,1.9360939859265127,1
+Germany,Imports of goods and services (% of GDP),Holt-Winters,2.56673143912463,1
+Germany,Exports of goods and services (% of GDP),Holt-Winters,1.529586950444317,1
+Austria,GDP per Capita (USD),Holt-Winters,4587.94998275118,1
+Austria,GDP (USD),Holt-Winters,45461323047.20188,1
+Austria,Inflation (CPI),Holt-Winters,2.485334331879083,1
+Austria,Unemployment Rate (%),Holt-Winters,0.6275094770549944,1
+Austria,GDP growth (annual %),Holt-Winters,2.7775353411467116,1
+Austria,Imports of goods and services (% of GDP),Holt-Winters,3.4147242719603597,1
+Austria,Exports of goods and services (% of GDP),Holt-Winters,3.059749089385497,1
+France,GDP per Capita (USD),Holt-Winters,2512.1112274913435,1
+France,GDP (USD),Holt-Winters,199120435968.03027,1
+France,Inflation (CPI),Holt-Winters,1.58210603769426,1
+France,Unemployment Rate (%),Holt-Winters,0.4775615556806565,1
+France,GDP growth (annual %),Holt-Winters,2.968527138683265,1
+France,Imports of goods and services (% of GDP),Holt-Winters,2.4512020089636413,1
+France,Exports of goods and services (% of GDP),Holt-Winters,2.664020271703237,1
+Italy,GDP per Capita (USD),Holt-Winters,2963.111150580071,1
+Italy,GDP (USD),Holt-Winters,156365575156.81033,1
+Italy,Inflation (CPI),Holt-Winters,1.7296785025686554,1
+Italy,Unemployment Rate (%),Holt-Winters,1.8392062521261479,1
+Italy,GDP growth (annual %),Holt-Winters,3.9166284744800652,1
+Italy,Imports of goods and services (% of GDP),Holt-Winters,2.690670453198239,1
+Italy,Exports of goods and services (% of GDP),Holt-Winters,1.43794662698324,1
