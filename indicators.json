@@ -1,0 +1,9 @@
+{
+    "GDP per Capita (USD)": "NY.GDP.PCAP.CD",
+    "GDP (USD)": "NY.GDP.MKTP.CD",
+    "Inflation (CPI)": "FP.CPI.TOTL.ZG",
+    "Unemployment Rate (%)": "SL.UEM.TOTL.ZS",
+    "GDP growth (annual %)": "NY.GDP.MKTP.KD.ZG",
+    "Imports of goods and services (% of GDP)" :"NE.IMP.GNFS.ZS",
+    "Exports of goods and services (% of GDP)" : "NE.EXP.GNFS.ZS"
+}
