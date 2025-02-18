@@ -25,37 +25,122 @@ tab1, tab2, tab3, tab4 = st.tabs([
     "📦 Seasonal Decompose Plots"
 ])
 
-# Helper function to generate and display image
 def generate_and_display_image(folder, graph_type, country, indicator, model_type=None):
     # Format country and indicator for file naming
-
     formatted_country = country.replace(" ", "_")
     formatted_indicator = indicator.replace(" ", "_")
 
-    # Add model type to the file name if it's for model_plot
-    if folder == "model_plot" and model_type:
-        file_name = f"{model_type}_{formatted_country}_{formatted_indicator}.png"
+    # Initialize path variable to avoid UnboundLocalError
+    path = None
+
+    if country == "All_Countries":
+        if folder == "model_plot" and model_type == 'AllModels':
+            # Special case for All_Countries with model_plot
+            path = os.path.join(
+                "images",
+                folder,
+                "Indicators",
+                indicator,
+                f"All_Countries_{formatted_indicator}.png"
+            )
+        elif folder == "model_plot" and model_type != 'AllModels':
+            # Load all images matching the pattern
+            import glob
+            base_path = os.path.join("images", folder, "Indicators", indicator)
+            pattern = os.path.join(base_path, f"{model_type}_*.png")
+            matching_files = glob.glob(pattern)
+
+            if matching_files:
+                for file_path in matching_files:
+                    try:
+                        img = Image.open(file_path)
+                        st.image(img, use_container_width=True)
+                    except Exception as e:
+                        st.error(f"Error loading image: {e}")
+            else:
+                st.error("No files found matching the selected criteria.")
+            # Return early to prevent further processing for this special case
+            return
+        else:
+            # Special case for All_Countries with other folders
+            path = os.path.join(
+                "images",
+                folder,
+                "Indicators",
+                formatted_indicator,
+                f"{graph_type}_All_Countries_{formatted_indicator}.png"
+            )
+    elif country != "All_Countries" and indicator == 'all_indicators' and folder == "model_plot":
+        if folder == "model_plot" and model_type == 'AllModels':
+            # Special case for All_Countries with model_plot
+            path = os.path.join(
+                "images",
+                folder,
+                "Countries",
+                formatted_country,
+                f"{formatted_country}_all_indicators.png"
+            )
+        elif folder == "model_plot" and model_type != 'AllModels':
+            # Load all images matching the pattern
+            import glob
+            base_path = os.path.join("images", folder, "Countries", formatted_country)
+            pattern = os.path.join(base_path, f"{model_type}_*.png")
+            matching_files = glob.glob(pattern)
+
+            if matching_files:
+                for file_path in matching_files:
+                    try:
+                        img = Image.open(file_path)
+                        st.image(img, use_container_width=True)
+                    except Exception as e:
+                        st.error(f"Error loading image: {e}")
+            else:
+                st.error("No files found matching the selected criteria.")
+            # Return early to prevent further processing for this special case
+            return
+        else:
+            # Special case for All_Countries with other folders
+            path = os.path.join(
+                "images",
+                folder,
+                "Indicators",
+                formatted_indicator,
+                f"{graph_type}_All_Countries_{formatted_indicator}.png"
+            )
+
     else:
-        file_name = f"{graph_type}_{formatted_country}_{formatted_indicator}.png"
+        # Regular case for specific countries
+        if folder == "model_plot" and formatted_indicator == 'all_indicators':
+            file_name = f"{formatted_country}_{formatted_indicator}.png"
+        elif folder == "model_plot" and model_type:
+            file_name = f"{model_type}_{formatted_country}_{formatted_indicator}.png"
+        else:
+            file_name = f"{graph_type}_{formatted_country}_{formatted_indicator}.png"
+        path = os.path.join("images", folder, "Countries", formatted_country, file_name)
 
-    # Construct the path
-    path = os.path.join("images", folder, "Countries", formatted_country, file_name)
-
-
-    # Check if file exists and display
-    if os.path.isfile(path):
+    # Check if path is set and if the file exists
+    if path and os.path.isfile(path):
         try:
             img = Image.open(path)
             st.image(img, caption=f"{graph_type} | {country} | {indicator}", use_container_width=True)
         except Exception as e:
             st.error(f"Error loading image: {e}")
-    else:
+    elif path:
         st.error("File not found. Please check the selected country, indicator, and model type.")
 
+
+
+
 # Dropdowns for country and indicator selection
+x = list(indicators.keys())
+x.append('all_indicators')
+
+y = list(countries.keys())
+y.append('All_Countries')
+
 st.sidebar.header("Select Parameters")
-selected_country = st.sidebar.selectbox("Choose a Country", list(countries.keys()))
-selected_indicator = st.sidebar.selectbox("Choose an Indicator", list(indicators.keys()))
+selected_country = st.sidebar.selectbox("Choose a Country", y)
+selected_indicator = st.sidebar.selectbox("Choose an Indicator", x)
 
 # Additional dropdown for model type (only for model_plot)
 model_types = ["ARIMA", "Holt_Winters", "XGBoost", "LSTM", "Prophet", 'AllModels']
@@ -63,20 +148,24 @@ selected_model_type = st.sidebar.selectbox("Choose a Model Type (for Model Line 
 
 # Tab 1: Model Line Graphs
 with tab1:
-    st.header("📊 Model Line Graphs")
+    #st.header("📊 Model Line Graphs")
     generate_and_display_image("model_plot", "Model", selected_country, selected_indicator, selected_model_type)
 
 # Tab 2: Line Graphs
 with tab2:
-    st.header("📊 Line Graphs")
+    #st.header("📊 Line Graphs")
     generate_and_display_image("plot", "Line", selected_country, selected_indicator)
 
 # Tab 3: Autocorrelation Plots
 with tab3:
-    st.header("📉 Autocorrelation Plots")
+    #st.header("📉 Autocorrelation Plots")
     generate_and_display_image("autocor_plot", "Autocor", selected_country, selected_indicator)
 
 # Tab 4: Seasonal Decompose Plots
 with tab4:
-    st.header("📦 Seasonal Decompose Plots")
+    #st.header("📦 Seasonal Decompose Plots")
     generate_and_display_image("season_decompose", "Seasonality", selected_country, selected_indicator)
+
+with st.sidebar.expander("ℹ️ Important Notes"):
+    st.write("1. Do not combine 'All_Countries' with 'all_indicators'. This combination is not supported and will not work.")
+    st.write("2. If 'All_Countries' or 'all_indicators' is chosen, the 'Select Model Type' option will have no effect.")
