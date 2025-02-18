@@ -45,7 +45,7 @@ with open(countries_file, 'r') as f:
     countries = json.load(f)
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs(["🏁 Final_data", "🎯 Model_result_data", "🛠️ Model_best_params"])
+tab1, tab2, tab3, tab4 = st.tabs(["🏁 Final_data", "🎯 Model_result_data", "🛠️ Model_best_params", "📝 Input_data"])
 
 # Final Data Tab (Tab 1)
 with tab1:
@@ -281,3 +281,158 @@ with tab3:
         # Concatenate all dataframes from the list and display
         final_df = pd.concat(results_container, ignore_index=True)
         st.dataframe(final_df)
+
+# Tab 4 - Input Data
+with tab4:
+    st.subheader("Input Data")
+
+    # Base path for input data
+    base_path = "data/base"
+
+    # Paths for JSON files
+    countries_file = "countries.json"
+    indicators_file = "indicators.json"
+
+    # Check if required files and directories exist
+    if not os.path.isdir(base_path):
+        st.error(f"The directory '{base_path}' does not exist.")
+    elif not os.path.isfile(countries_file):
+        st.error(f"The file '{countries_file}' does not exist.")
+    elif not os.path.isfile(indicators_file):
+        st.error(f"The file '{indicators_file}' does not exist.")
+    else:
+        try:
+            # Load country names and indicator names from JSON files (as keys)
+            with open(countries_file, 'r') as f:
+                countries = list(json.load(f).keys())
+
+            with open(indicators_file, 'r') as f:
+                indicators = list(json.load(f).keys())
+
+            # Add "All_Countries" and "All_Indicators" options
+            countries.insert(0, "All_Countries")
+            indicators.insert(0, "All_Indicators")
+
+            # Check if lists are populated
+            if not countries:
+                st.error("No countries found in 'countries.json'.")
+            elif not indicators:
+                st.error("No indicators found in 'indicators.json'.")
+            else:
+                # Dropdown for country selection
+                selected_country = st.selectbox("Select Country", countries)
+
+                # Dropdown for indicator selection
+                selected_indicator = st.selectbox("Select Indicator", indicators)
+
+                # Handle the cases for "All_Countries" and "All_Indicators"
+                if selected_country == "All_Countries":
+                    selected_country = None  # This will signify all countries selected
+                if selected_indicator == "All_Indicators":
+                    selected_indicator = None  # This will signify all indicators selected
+
+                # Construct the filename based on the selected options
+                if selected_country and selected_indicator:
+                    selected_file = f"{selected_country.replace(' ', '_')}_{selected_indicator.replace(' ', '_')}.parquet"
+                    selected_file_path = os.path.join(base_path, selected_file)
+                else:
+                    selected_file_path = None
+
+                # Handle case when "All Indicators + Any Country" is selected
+                if selected_country and selected_indicator is None:
+                    try:
+                        # Load and aggregate data for all indicators for the selected country
+                        all_dfs = []
+                        for indicator in indicators[1:]:  # Skip "All_Indicators"
+                            file_name = f"{selected_country.replace(' ', '_')}_{indicator.replace(' ', '_')}.parquet"
+                            file_path = os.path.join(base_path, file_name)
+                            if os.path.isfile(file_path):
+                                df = pd.read_parquet(file_path)
+                                df = df.dropna()
+                                df['Country'] = selected_country
+                                df['Indicator'] = indicator
+                                all_dfs.append(df)
+
+                        if all_dfs:
+                            combined_df = pd.concat(all_dfs, ignore_index=True)
+                            st.write(f"Displaying data for **{selected_country}** with all indicators:")
+                            st.dataframe(combined_df)
+                        else:
+                            st.error(f"No data found for {selected_country} with all indicators.")
+                    except Exception as e:
+                        st.error(f"Error loading data: {e}")
+
+                # Handle case when "Any Country + All Indicators" is selected
+                elif selected_country is None and selected_indicator:
+                    try:
+                        # Load and aggregate data for all countries for the selected indicator
+                        all_dfs = []
+                        for country in countries[1:]:  # Skip "All_Countries"
+                            file_name = f"{country.replace(' ', '_')}_{selected_indicator.replace(' ', '_')}.parquet"
+                            file_path = os.path.join(base_path, file_name)
+                            if os.path.isfile(file_path):
+                                df = pd.read_parquet(file_path)
+                                df = df.dropna()
+                                df['Country'] = country
+                                df['Indicator'] = selected_indicator
+                                all_dfs.append(df)
+
+                        if all_dfs:
+                            combined_df = pd.concat(all_dfs, ignore_index=True)
+                            st.write(f"Displaying data for all countries with **{selected_indicator}**:")
+                            st.dataframe(combined_df)
+                        else:
+                            st.error(f"No data found for {selected_indicator} with all countries.")
+                    except Exception as e:
+                        st.error(f"Error loading data: {e}")
+
+                # Handle case when "All_Countries" and "All_Indicators" are selected
+                elif selected_country is None and selected_indicator is None:
+                    try:
+                        # Aggregate data for all countries and all indicators
+                        all_dfs = []  # List to store all DataFrames for all countries and indicators
+                        for country in countries[1:]:  # Skip "All_Countries"
+                            for indicator in indicators[1:]:  # Skip "All_Indicators"
+                                file_name = f"{country.replace(' ', '_')}_{indicator.replace(' ', '_')}.parquet"
+                                file_path = os.path.join(base_path, file_name)
+                                if os.path.isfile(file_path):
+                                    df = pd.read_parquet(file_path)
+                                    df = df.dropna()
+                                    df['Country'] = country
+                                    df['Indicator'] = indicator
+                                    all_dfs.append(df)
+
+                        if all_dfs:
+                            combined_df = pd.concat(all_dfs, ignore_index=True)
+                            st.write("Displaying aggregated data for all countries and indicators:")
+                            st.dataframe(combined_df)
+                        else:
+                            st.error("No data found for the selected countries and indicators.")
+                    except Exception as e:
+                        st.error(f"Error loading aggregated data: {e}")
+
+                else:
+                    # Case: Specific country and indicator selected
+                    if os.path.isfile(selected_file_path):
+                        try:
+                            df = pd.read_parquet(selected_file_path)
+                            df = df.dropna()
+
+                            # Fix year format by removing commas in the 'year' column (if it's in the dataset)
+                            if 'Year' in df.columns:
+                                df['Year'] = df['Year'].astype(str).apply(lambda x: x.replace(',', ''))  # Remove commas
+
+                            # Display the cleaned DataFrame
+                            st.write(f"Displaying cleaned data for **{selected_country} - {selected_indicator}**:")
+                            st.dataframe(df)
+
+                        except Exception as e:
+                            st.error(f"Error loading the file: {e}")
+                    else:
+                        st.error(f"The file '{selected_file}' does not exist.")
+
+        except Exception as e:
+            st.error(f"Error loading JSON files: {e}")
+
+
+
