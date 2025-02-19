@@ -4,7 +4,7 @@ import json
 from PIL import Image
 
 # Page setup
-st.set_page_config(page_title="🖼️ Graph Gallery", page_icon="🖼️", layout="wide")
+st.set_page_config(page_title="Graph Gallery", page_icon="🖼️", layout="wide")
 
 # Load country and indicator data
 with open("countries.json", "r") as country_file:
@@ -19,12 +19,10 @@ st.write("Explore visualizations by selecting a country and an indicator (and mo
 
 col1, col2, col3, col4 , col5  = st.columns(5)
 with col1:
-        if st.button("🕵️ **Data Exploration**", key=32323):
-            st.markdown('<meta http-equiv="refresh" content="0; URL=/Data_exploration" />', unsafe_allow_html=True)
+    st.page_link("pages/🕵Data_exploration.py", label="**Data Exploration**", icon="🕵️")
 
 with col2:
-        if st.button(" **Home**", key=33333):
-            st.markdown('<meta http-equiv="refresh" content="0; URL=/" />', unsafe_allow_html=True)
+    st.page_link("Home_page.py", label="**Home**")
  
 with col3:
         st.empty()  # Placeholder for spacing

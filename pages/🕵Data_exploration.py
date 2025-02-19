@@ -2,18 +2,18 @@ import streamlit as st
 import os
 import pandas as pd
 import json
-st.set_page_config(page_title="🕵 Data_exploration", page_icon="🕵", layout="wide")
+st.set_page_config(page_title="Data_exploration", page_icon="🕵️‍♂️", layout="wide")
 # Page Title
 st.title("🕵 Data Exploration")
+
 st.write("Explore data by selecting a country and an indicator (and model type). Use the tabs to view specific data categories.")
 col1, col2, col3, col4 , col5  = st.columns(5)
 with col1:
-        if st.button("🖼️**Graph Gallery**", key=378):
-            st.markdown('<meta http-equiv="refresh" content="0; URL=/Graph_gallery" />', unsafe_allow_html=True)
+    st.page_link("pages/🖼️Graph_gallery.py", label="**Graph Gallery**", icon="🖼️")
 
 with col2:
-        if st.button(" **Home**", key=25555):
-            st.markdown('<meta http-equiv="refresh" content="0; URL=/" />', unsafe_allow_html=True)
+    st.page_link("Home_page.py", label="**Home**")
+
  
 with col3:
         st.empty()  # Placeholder for spacing

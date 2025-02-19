@@ -1,5 +1,6 @@
 import streamlit as st
-
+import os
+import json
 # Page Configuration
 st.set_page_config(
     page_title="Macroeconomic Forecasting: Master's Thesis",
@@ -22,18 +23,55 @@ def main():
     # Links to other pages (side by side, grouped in columns 1 and 2)
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        if st.button("🕵️ **Data Exploration**", key=156411677):
-            st.markdown('<meta http-equiv="refresh" content="0; URL=/Data_exploration" />', unsafe_allow_html=True)
+        st.page_link("pages/🕵Data_exploration.py", label="**Data Exploration**", icon="🕵️")
+
 
     with col2:
-        if st.button("🖼️ **Graph Gallery**", key=15641165):
-            st.markdown('<meta http-equiv="refresh" content="0; URL=/Graph_gallery" />', unsafe_allow_html=True)
+        st.page_link("pages/🖼️Graph_gallery.py", label="**Graph Gallery**", icon="🖼️")
  
     with col3:
         st.empty()  # Placeholder for spacing
 
     with col4:
         st.empty()  # Placeholder for spacing
+    
+    col1, col2 = st.columns(2)
+    countries_file = "countries.json"
+    indicators_file = "indicators.json"
+    # Loading and displaying countries.json in the first column
+    with col1:
+        if os.path.exists(countries_file):
+            with open(countries_file, "r") as file:
+                countries_data = json.load(file)
+            with st.expander("### Countries", expanded=False):  # Collapsible section
+                st.json(countries_data)  # Display the contents of countries.json
+        else:
+            st.error(f"{countries_file} not found.")
+
+    # Loading and displaying indicators.json in the second column
+    with col2:
+        if os.path.exists(indicators_file):
+            with open(indicators_file, "r") as file:
+                indicators_data = json.load(file)
+            with st.expander("### Indicators", expanded=False):  # Collapsible section
+                st.json(indicators_data)  # Display the contents of indicators.json
+        else:
+            st.error(f"{indicators_file} not found.")
+    
+    st.markdown("""
+    <small>Explore Country: https://data.worldbank.org/country/{country_code}</small>
+""", unsafe_allow_html=True)
+    st.markdown("""
+    <small>Explore Indicator: https://data.worldbank.org/indicator/{indicator_code}</small>
+""", unsafe_allow_html=True)
+    st.markdown("""
+    <small>Get data: https://api.worldbank.org/v2/country/{country_code}/indicator/{indicator_code}</small>
+""", unsafe_allow_html=True)
+    st.markdown("""
+    <small>(You have to fill {} with correct values for actual results to be displayed , examples are JSON values)</small>
+""", unsafe_allow_html=True)
+    
+
 
     # Overview Section
     st.markdown("""
