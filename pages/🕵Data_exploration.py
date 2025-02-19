@@ -23,26 +23,6 @@ with col4:
 with col5:
         st.empty()  # Placeholder for spacing
 
-# Custom CSS to make dataframes full width and align the filters horizontally
-st.markdown("""
-    <style>
-        .dataframe-container {
-            width: 100%;  /* Make the dataframe container take up full width */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .filter-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .stDataFrame {
-            width: 100% !important;  /* Ensure dataframes take full width */
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # Define model types
 model_types = ["ARIMA", "Holt-Winters", "XGBoost", "LSTM", "Prophet"]
@@ -132,10 +112,11 @@ with tab1:
                     df = df[df['Model'].isin(models_selected)]
 
             # Center the DataFrame using the custom CSS class (full width)
+            
             with st.container():
-                st.markdown('<div class="dataframe-container">', unsafe_allow_html=True)
+                #st.markdown('<div class="dataframe-container">', unsafe_allow_html=True)
                 st.dataframe(df)
-                st.markdown('</div>', unsafe_allow_html=True)
+                #st.markdown('</div>', unsafe_allow_html=True)
 
         except Exception as e:
             st.error(f"Error loading CSV file: {e}")
