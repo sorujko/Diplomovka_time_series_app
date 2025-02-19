@@ -5,9 +5,23 @@ import json
 st.set_page_config(page_title="🕵 Data_exploration", page_icon="🕵", layout="wide")
 # Page Title
 st.title("🕵 Data Exploration")
-
 st.write("Explore data by selecting a country and an indicator (and model type). Use the tabs to view specific data categories.")
+col1, col2, col3, col4 , col5  = st.columns(5)
+with col1:
+        if st.button("🖼️**Graph Gallery**", key=378):
+            st.markdown('<meta http-equiv="refresh" content="0; URL=/Graph_gallery" />', unsafe_allow_html=True)
 
+with col2:
+        if st.button(" **Home**", key=25555):
+            st.markdown('<meta http-equiv="refresh" content="0; URL=/" />', unsafe_allow_html=True)
+ 
+with col3:
+        st.empty()  # Placeholder for spacing
+
+with col4:
+        st.empty()  # Placeholder for spacing
+with col5:
+        st.empty()  # Placeholder for spacing
 
 # Custom CSS to make dataframes full width and align the filters horizontally
 st.markdown("""

@@ -17,6 +17,23 @@ with open("indicators.json", "r") as indicator_file:
 st.title("🖼️ Graph Gallery")
 st.write("Explore visualizations by selecting a country and an indicator (and model type). Use the tabs to view specific graph types.")
 
+col1, col2, col3, col4 , col5  = st.columns(5)
+with col1:
+        if st.button("🕵️ **Data Exploration**", key=32323):
+            st.markdown('<meta http-equiv="refresh" content="0; URL=/Data_exploration" />', unsafe_allow_html=True)
+
+with col2:
+        if st.button(" **Home**", key=33333):
+            st.markdown('<meta http-equiv="refresh" content="0; URL=/" />', unsafe_allow_html=True)
+ 
+with col3:
+        st.empty()  # Placeholder for spacing
+
+with col4:
+        st.empty()  # Placeholder for spacing
+with col5:
+        st.empty()  # Placeholder for spacing
+
 # Create tabs
 tab1, tab2, tab3, tab4 = st.tabs([
     "📊 Model Line Graphs", 
@@ -168,4 +185,3 @@ with tab4:
 
 with st.sidebar.expander("ℹ️ Important Notes"):
     st.write("1. Do not combine 'All_Countries' with 'all_indicators'. This combination is not supported and will not work.")
-    st.write("2. If 'All_Countries' or 'all_indicators' is chosen, the 'Select Model Type' option will have no effect.")
