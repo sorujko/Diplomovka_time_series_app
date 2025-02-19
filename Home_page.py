@@ -95,9 +95,9 @@ def main():
 def sidebar():
     st.sidebar.header("About Me")
     st.sidebar.markdown("""
-    **Author:** Your Name  
-    **University:** Your Institution  
-    **Field of Study:** Data Science / Economics
+    **Author:** Juraj Hakoš  
+    **University:** FHI EUBA  
+    **Field of Study:** IT / Economics
     **CRZP:** [Your CRZP Link](#)  
     **Year:** 2025
     ____________

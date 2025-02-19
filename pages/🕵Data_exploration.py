@@ -58,12 +58,12 @@ with open(indicators_file, 'r') as f:
 with open(countries_file, 'r') as f:
     countries = json.load(f)
 
+
 # Create tabs
 tab1, tab2, tab3, tab4 = st.tabs(["🏁 Final_data", "🎯 Model_result_data", "🛠️ Model_best_params", "📝 Input_data"])
 
 # Final Data Tab (Tab 1)
 with tab1:
-    st.subheader("Final Data")
 
     # Create a sub-tab for selecting the subfolder
     folder_selection = st.selectbox(
@@ -142,10 +142,32 @@ with tab1:
 
     else:
         st.error(f"Selected folder '{folder_selection}' does not exist.")
+    
+    with st.sidebar.expander("About Final Data"):
+        st.write("""
+        In this tab, you can explore and filter the **final data** stored in different subfolders. Here's what you can do:
+        
+        - **Folders:** 
+        - `country_rankings`: View rankings by country. Filter by countries and models.
+        - `indicator_rankings`: View rankings by indicator. Filter by indicators and models.
+        - `log_files`: Explore log data. Filter by countries, indicators, and models.
+        - `overall_rankings`: View overall rankings without additional filters.
+        
+        - **File Selection:** The most recent CSV file from the selected folder is chosen by default, but you can select any other file available.
+
+        - **Filters:** 
+        - Depending on the folder, you can filter the data by **Countries**, **Indicators**, or **Models**.
+        - For `country_rankings` and `indicator_rankings`, applicable filters are shown automatically.
+        
+        - **Output:** 
+        - A filtered table is displayed based on your selections.
+        - If no filters are applied, the full dataset is shown.
+
+        Explore the available data and customize the view with the options provided!
+        """)
 
 # Tab 2 - Train Model Data
 with tab2:
-    st.subheader("Train Model Data")
 
     # Path to the base directory where the subfolders are located
     base_directory = "data"
@@ -212,24 +234,55 @@ with tab2:
 
     else:
         st.error(f"Selected folder '{folder_selection}' does not exist.")
+    
+    with st.sidebar.expander("About Model Result Data"):
+        st.write("""
+        This tab allows you to explore **model training data** from folders containing '_train' in their name. Here's what you can do:
+        
+        - **Folder Selection:**
+        - Automatically detects subfolders within the `data` directory that are related to model training (folders with '_train' in their name).
+        - Select the desired training folder from the dropdown.
+
+        - **File Selection:**
+        - Lists all CSV files within the selected folder, sorted for convenience.
+        - The most recent CSV file is selected by default, but you can choose any file from the dropdown.
+
+        - **Filters:**
+        - Filter the training data by **Countries** or **Indicators** using the multi-select dropdowns. 
+        - Leave filters empty to view the entire dataset.
+
+        - **Output:**
+        - Displays the filtered dataset in a tabular format.
+        - Automatically removes unnecessary columns like 'Rank', if present, for cleaner data visualization.
+
+        Use this tab to inspect, filter, and analyze the training data for your models!
+        """)
 
 model_types = ["ARIMA", "Holt_Winters", "XGBoost", "LSTM", "Prophet"]
 # Tab 3 - Best Parameters
 with tab3:
-    st.subheader("Best Parameters")
-
     # Path to best_params base directory
     best_params_base_path = "best_params"
 
-    # Indicator, Model, and Country selection
-    indicator_options = list(indicators.keys()) + ["All Indicators"]
-    indicator_selected = st.selectbox("Select Indicator", indicator_options)
-
-    model_selected = st.selectbox("Select Model", model_types)
 
     # Add "All Countries" option
     country_options = list(countries.keys()) + ["All Countries"]
-    country_selected = st.selectbox("Select Country", country_options)
+
+
+    # Indicator, Model, and Country selection
+    indicator_options = list(indicators.keys()) + ["All Indicators"]
+
+
+    col1, col2, col3 = st.columns([2, 2, 2])  # Create three columns
+    with col1:
+        country_selected = st.selectbox("Select Country", country_options)
+                
+    with col2:
+        indicator_selected = st.selectbox("Select Indicator", indicator_options)
+    
+    with col3:
+        model_selected = st.selectbox("Select Model", model_types)
+
 
     # Handle "All Countries" selection
     if country_selected == "All Countries":
@@ -295,10 +348,36 @@ with tab3:
         # Concatenate all dataframes from the list and display
         final_df = pd.concat(results_container, ignore_index=True)
         st.dataframe(final_df)
+    
+    # Add an expander in the sidebar for tab explanation
+    with st.sidebar.expander("About Model Best Analysis"):
+        st.write("""
+        This tab allows you to explore the **best model parameters** saved in JSON files for different combinations of countries, indicators, and models. Here's how it works:
+        
+        - **Country, Indicator, and Model Selection:**
+        - Choose a **Country** or select "All Countries" to include all available ones.
+        - Choose an **Indicator** or select "All Indicators" for a broader analysis.
+        - Select a **Model Type** (e.g., XGBoost, Random Forest, etc.).
+
+        - **JSON File Processing:**
+        - The system searches for JSON files in the `best_params` directory matching the selected parameters.
+        - If the selected model is **XGBoost**, it additionally looks for `SelectedFeatures` JSON files to append feature information.
+
+        - **Results:**
+        - Combines data from all relevant JSON files into a single, concise table.
+        - Adds metadata columns like `Country`, `Model`, and `Indicator` for better traceability.
+        - For XGBoost, the selected features are included as additional columns.
+
+        - **Output Table:**
+        - Displays the final data in a tabular format. 
+        - If no data is found for the selected parameters, a warning is shown instead.
+
+        Use this tab to analyze model parameters and compare results across multiple countries, indicators, and models!
+        """)
+
 
 # Tab 4 - Input Data
 with tab4:
-    st.subheader("Input Data")
 
     # Base path for input data
     base_path = "data/base"
@@ -334,10 +413,12 @@ with tab4:
                 st.error("No indicators found in 'indicators.json'.")
             else:
                 # Dropdown for country selection
-                selected_country = st.selectbox("Select Country", countries)
-
-                # Dropdown for indicator selection
-                selected_indicator = st.selectbox("Select Indicator", indicators)
+                col1, col2, col3 = st.columns([2, 2, 2])  # Create three columns
+                with col1:
+                    selected_country = st.selectbox("Select Country", countries)
+                
+                with col2:
+                    selected_indicator = st.selectbox("Select Indicator", indicators)
 
                 # Handle the cases for "All_Countries" and "All_Indicators"
                 if selected_country == "All_Countries":
@@ -418,7 +499,6 @@ with tab4:
 
                         if all_dfs:
                             combined_df = pd.concat(all_dfs, ignore_index=True)
-                            st.write("Displaying aggregated data for all countries and indicators:")
                             st.dataframe(combined_df)
                         else:
                             st.error("No data found for the selected countries and indicators.")
@@ -447,6 +527,28 @@ with tab4:
 
         except Exception as e:
             st.error(f"Error loading JSON files: {e}")
+    
+    with st.sidebar.expander("About Input Data"):
+        st.write("""
+        This tab allows you to explore **parquet files** containing data for various combinations of countries and indicators. Here's how it works:
+
+        - **Country and Indicator Selection:**
+            - Choose a **Country** from the dropdown or select "All Countries" to include all available ones.
+            - Choose an **Indicator** from the dropdown or select "All Indicators" for a broader analysis.
+
+        - **File Loading:**
+            - The system searches for parquet files in the `data/base` directory matching the selected parameters.
+            - For **All Countries**, it loads and aggregates data for the selected indicator across all countries.
+            - For **All Indicators**, it loads and aggregates data for the selected country across all indicators.
+            - For **All Countries** and **All Indicators**, it aggregates data across all available combinations.
+
+        - **Output Table:**
+            - Displays the combined data in a clear, tabular format.
+            - Adds metadata columns like `Country` and `Indicator` for better traceability.
+            - If no data is found, a warning is displayed instead.
+
+        Use this tab to analyze and compare data across multiple countries and indicators easily!
+        """)
 
 
 
