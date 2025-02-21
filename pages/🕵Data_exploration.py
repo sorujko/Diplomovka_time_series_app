@@ -7,6 +7,10 @@ st.set_page_config(page_title="Data_exploration", page_icon="🕵️‍♂️", 
 st.title("🕵 Data Exploration")
 
 st.write("Explore data by selecting a country and an indicator (and model type). Use the tabs to view specific data categories.")
+
+with st.sidebar.expander("ℹ️ Important Notes"):
+    st.write("Indicator **GDP (USD)** has it's values **billions USD** in Value column (Ukazovateľ GDP (USD) ma v stĺpci Value hodnoty v miliardách USC)")
+
 col1, col2, col3, col4 , col5  = st.columns(5)
 with col1:
     st.page_link("pages/🖼️Graph_gallery.py", label="**Graph Gallery**", icon="🖼️")
@@ -104,6 +108,7 @@ with tab1:
                 if models_selected:
                     df = df[df['Model'].isin(models_selected)] 
             if folder_selection == "log_files":
+                df.loc[df["Indicator"].isin(["GDP (USD)"]), "RMSE"] /= 1_000_000_000
                 if countries_selected:
                     df = df[df['Country'].isin(countries_selected)]
                 if indicators_selected:
@@ -193,6 +198,7 @@ with tab2:
         # Load and filter the CSV file based on the selections
         try:
             df = pd.read_csv(selected_file_path)
+            df.loc[df["Indicator"].isin(["GDP (USD)"]), "RMSE"] /= 1_000_000_000
 
             # Drop the 'Rank' column if it exists
             if 'Rank' in df.columns:
@@ -242,79 +248,46 @@ with tab2:
 model_types = ["ARIMA", "Holt_Winters", "XGBoost", "LSTM", "Prophet"]
 # Tab 3 - Best Parameters
 with tab3:
-    # Path to best_params base directory
     best_params_base_path = "best_params"
 
-
-    # Add "All Countries" option
-    country_options = list(countries.keys()) + ["All Countries"]
-
-
-    # Indicator, Model, and Country selection
-    indicator_options = list(indicators.keys()) + ["All Indicators"]
-
-
-    col1, col2, col3 = st.columns([2, 2, 2])  # Create three columns
+    # Arrange selection boxes in a row
+    col1, col2, col3 = st.columns(3)
     with col1:
-        country_selected = st.selectbox("Select Country", country_options)
-                
+        country_selected = st.multiselect("Select Country", options=list(countries.keys()), default=[])
     with col2:
-        indicator_selected = st.selectbox("Select Indicator", indicator_options)
-    
+        indicator_selected = st.multiselect("Select Indicator", options=list(indicators.keys()), default=[])
     with col3:
         model_selected = st.selectbox("Select Model", model_types)
 
+    # If nothing is selected, include all options
+    selected_countries = country_selected if country_selected else list(countries.keys())
+    selected_indicators = indicator_selected if indicator_selected else list(indicators.keys())
 
-    # Handle "All Countries" selection
-    if country_selected == "All Countries":
-        selected_countries = list(countries.keys())
-    else:
-        selected_countries = [country_selected]
-
-    # Handle "All Indicators" selection
-    if indicator_selected == "All Indicators":
-        selected_indicators = list(indicators.keys())
-    else:
-        selected_indicators = [indicator_selected]
-
-    # Container for results
     results_container = []
 
-    # Iterate through all selected indicators and countries
     for country in selected_countries:
         for indicator in selected_indicators:
-            # Build the path to the corresponding JSON file
             json_file_path = os.path.join(best_params_base_path, indicator, f"{model_selected}_{country}.json")
 
-            # Try to read and process the JSON file
             if os.path.exists(json_file_path):
                 try:
-                    # Read the JSON data
                     with open(json_file_path, 'r') as file:
                         json_data = json.load(file)
-                    
-                    # Convert JSON data into a DataFrame
-                    df = pd.json_normalize(json_data)
 
-                    # Add metadata columns
+                    df = pd.json_normalize(json_data)
                     df.insert(0, 'Country', country)
                     df.insert(0, 'Model', model_selected)
                     df.insert(0, 'Indicator', indicator)
 
-                    # Handle XGBoost-specific SelectedFeatures files
                     if model_selected == "XGBoost":
                         features_file_path = os.path.join(best_params_base_path, indicator, f"SelectedFeatures_{country}.json")
                         if os.path.exists(features_file_path):
                             with open(features_file_path, 'r') as feature_file:
                                 feature_data = json.load(feature_file)
-                            
-                            # Add features as additional columns
                             for i, feature in enumerate(feature_data):
                                 df[f"Feature_{i+1}"] = feature
 
-                    # Append the DataFrame to the results container
                     results_container.append(df)
-
                 except json.JSONDecodeError:
                     st.error(f"Error decoding JSON from: {json_file_path}")
                 except Exception as e:
@@ -322,50 +295,40 @@ with tab3:
             else:
                 st.warning(f"No data for {model_selected} in {country} under {indicator}")
 
-    # Display results
     if not results_container:
         st.warning("No data available for the selected parameters.")
     else:
-        # Concatenate all dataframes from the list and display
         final_df = pd.concat(results_container, ignore_index=True)
         st.dataframe(final_df)
-    
-    # Add an expander in the sidebar for tab explanation
-    with st.sidebar.expander("About Model Best Analysis"):
+
+    # Updated sidebar explanation
+    with st.sidebar.expander("About Model Best Params"):
         st.write("""
-        This tab allows you to explore the **best model parameters** saved in JSON files for different combinations of countries, indicators, and models. Here's how it works:
-        
-        - **Country, Indicator, and Model Selection:**
-        - Choose a **Country** or select "All Countries" to include all available ones.
-        - Choose an **Indicator** or select "All Indicators" for a broader analysis.
-        - Select a **Model Type** (e.g., XGBoost, Random Forest, etc.).
+        This tab allows you to explore the **best model parameters** stored in JSON files for different country, indicator, and model combinations.
 
-        - **JSON File Processing:**
-        - The system searches for JSON files in the `best_params` directory matching the selected parameters.
-        - If the selected model is **XGBoost**, it additionally looks for `SelectedFeatures` JSON files to append feature information.
+        - **Country & Indicator Selection:**  
+          - Use the multi-select dropdowns to choose specific countries and indicators.  
+          - If left empty, all countries and indicators are included by default.
 
-        - **Results:**
-        - Combines data from all relevant JSON files into a single, concise table.
-        - Adds metadata columns like `Country`, `Model`, and `Indicator` for better traceability.
-        - For XGBoost, the selected features are included as additional columns.
+        - **Model Selection:**  
+          - Choose a model type (e.g., XGBoost, Random Forest).
 
-        - **Output Table:**
-        - Displays the final data in a tabular format. 
-        - If no data is found for the selected parameters, a warning is shown instead.
+        - **Processing:**  
+          - The system loads JSON files based on selections and displays the extracted parameters.  
+          - If XGBoost is selected, it also loads the `SelectedFeatures` JSON file, if available.
 
-        Use this tab to analyze model parameters and compare results across multiple countries, indicators, and models!
+        - **Results:**  
+          - The extracted data is shown in a table.  
+          - If no matching data is found, a warning is displayed.
+
+        Use this tab to analyze model parameters efficiently!
         """)
+
 
 
 # Tab 4 - Input Data
 with tab4:
-
-    # Base path for input data
     base_path = "data/base"
-
-    # Paths for JSON files
-    countries_file = "countries.json"
-    indicators_file = "indicators.json"
 
     # Check if required files and directories exist
     if not os.path.isdir(base_path):
@@ -376,160 +339,76 @@ with tab4:
         st.error(f"The file '{indicators_file}' does not exist.")
     else:
         try:
-            # Load country names and indicator names from JSON files (as keys)
+            # Load country and indicator names from JSON files
             with open(countries_file, 'r') as f:
                 countries = list(json.load(f).keys())
-
             with open(indicators_file, 'r') as f:
                 indicators = list(json.load(f).keys())
 
-            # Add "All_Countries" and "All_Indicators" options
-            countries.insert(0, "All_Countries")
-            indicators.insert(0, "All_Indicators")
 
-            # Check if lists are populated
-            if not countries:
-                st.error("No countries found in 'countries.json'.")
-            elif not indicators:
-                st.error("No indicators found in 'indicators.json'.")
+            if not countries or not indicators:
+                st.error("No valid country or indicator data found.")
             else:
-                # Dropdown for country selection
-                col1, col2, col3 = st.columns([2, 2, 2])  # Create three columns
+                # Arrange selection boxes in a row
+                col1, col2 = st.columns(2)
                 with col1:
-                    selected_country = st.selectbox("Select Country", countries)
-                
+                    country_selected = st.multiselect("Select Country", options=countries, default=[],key = 11154)
                 with col2:
-                    selected_indicator = st.selectbox("Select Indicator", indicators)
+                    indicator_selected = st.multiselect("Select Indicator", options=indicators, default=[], key = 15468787)
 
-                # Handle the cases for "All_Countries" and "All_Indicators"
-                if selected_country == "All_Countries":
-                    selected_country = None  # This will signify all countries selected
-                if selected_indicator == "All_Indicators":
-                    selected_indicator = None  # This will signify all indicators selected
+                # If nothing is selected, include all options
+                selected_countries = country_selected if country_selected else countries[1:]
+                selected_indicators = indicator_selected if indicator_selected else indicators[1:]
 
-                # Construct the filename based on the selected options
-                if selected_country and selected_indicator:
-                    selected_file = f"{selected_country.replace(' ', '_')}_{selected_indicator.replace(' ', '_')}.parquet"
-                    selected_file_path = os.path.join(base_path, selected_file)
-                else:
-                    selected_file_path = None
-
-                # Handle case when "All Indicators + Any Country" is selected
-                if selected_country and selected_indicator is None:
-                    try:
-                        # Load and aggregate data for all indicators for the selected country
-                        all_dfs = []
-                        for indicator in indicators[1:]:  # Skip "All_Indicators"
-                            file_name = f"{selected_country.replace(' ', '_')}_{indicator.replace(' ', '_')}.parquet"
+                def load_and_combine_data(countries, indicators):
+                    """Helper function to load and aggregate data."""
+                    all_dfs = []
+                    for country in countries:
+                        for indicator in indicators:
+                            file_name = f"{country.replace(' ', '_')}_{indicator.replace(' ', '_')}.parquet"
                             file_path = os.path.join(base_path, file_name)
                             if os.path.isfile(file_path):
-                                df = pd.read_parquet(file_path)
-                                df = df.dropna()
-                                df['Country'] = selected_country
+                                df = pd.read_parquet(file_path).dropna()
+                                df['Country'] = country
                                 df['Indicator'] = indicator
                                 all_dfs.append(df)
+                    return pd.concat(all_dfs, ignore_index=True) if all_dfs else None
 
-                        if all_dfs:
-                            combined_df = pd.concat(all_dfs, ignore_index=True)
-                            st.write(f"Displaying data for **{selected_country}** with all indicators:")
-                            st.dataframe(combined_df)
-                        else:
-                            st.error(f"No data found for {selected_country} with all indicators.")
-                    except Exception as e:
-                        st.error(f"Error loading data: {e}")
+                # Load and combine data based on selections
+                if selected_countries and selected_indicators:
+                    combined_df = load_and_combine_data(selected_countries, selected_indicators)
+                    combined_df.loc[combined_df["Indicator"].isin(["GDP (USD)"]), "Value"] /= 1_000_000_000
+                    if combined_df is not None:
 
-                # Handle case when "Any Country + All Indicators" is selected
-                elif selected_country is None and selected_indicator:
-                    try:
-                        # Load and aggregate data for all countries for the selected indicator
-                        all_dfs = []
-                        for country in countries[1:]:  # Skip "All_Countries"
-                            file_name = f"{country.replace(' ', '_')}_{selected_indicator.replace(' ', '_')}.parquet"
-                            file_path = os.path.join(base_path, file_name)
-                            if os.path.isfile(file_path):
-                                df = pd.read_parquet(file_path)
-                                df = df.dropna()
-                                df['Country'] = country
-                                df['Indicator'] = selected_indicator
-                                all_dfs.append(df)
-
-                        if all_dfs:
-                            combined_df = pd.concat(all_dfs, ignore_index=True)
-                            st.write(f"Displaying data for all countries with **{selected_indicator}**:")
-                            st.dataframe(combined_df)
-                        else:
-                            st.error(f"No data found for {selected_indicator} with all countries.")
-                    except Exception as e:
-                        st.error(f"Error loading data: {e}")
-
-                # Handle case when "All_Countries" and "All_Indicators" are selected
-                elif selected_country is None and selected_indicator is None:
-                    try:
-                        # Aggregate data for all countries and all indicators
-                        all_dfs = []  # List to store all DataFrames for all countries and indicators
-                        for country in countries[1:]:  # Skip "All_Countries"
-                            for indicator in indicators[1:]:  # Skip "All_Indicators"
-                                file_name = f"{country.replace(' ', '_')}_{indicator.replace(' ', '_')}.parquet"
-                                file_path = os.path.join(base_path, file_name)
-                                if os.path.isfile(file_path):
-                                    df = pd.read_parquet(file_path)
-                                    df = df.dropna()
-                                    df['Country'] = country
-                                    df['Indicator'] = indicator
-                                    all_dfs.append(df)
-
-                        if all_dfs:
-                            combined_df = pd.concat(all_dfs, ignore_index=True)
-                            st.dataframe(combined_df)
-                        else:
-                            st.error("No data found for the selected countries and indicators.")
-                    except Exception as e:
-                        st.error(f"Error loading aggregated data: {e}")
-
-                else:
-                    # Case: Specific country and indicator selected
-                    if os.path.isfile(selected_file_path):
-                        try:
-                            df = pd.read_parquet(selected_file_path)
-                            df = df.dropna()
-
-                            # Fix year format by removing commas in the 'year' column (if it's in the dataset)
-                            if 'Year' in df.columns:
-                                df['Year'] = df['Year'].astype(str).apply(lambda x: x.replace(',', ''))  # Remove commas
-
-                            # Display the cleaned DataFrame
-                            st.write(f"Displaying cleaned data for **{selected_country} - {selected_indicator}**:")
-                            st.dataframe(df)
-
-                        except Exception as e:
-                            st.error(f"Error loading the file: {e}")
+                        st.dataframe(combined_df, width=600, height=250)
                     else:
-                        st.error(f"The file '{selected_file}' does not exist.")
+                        st.error("No data found for the selected criteria.")
+                else:
+                    st.warning("Please select at least one country and one indicator.")
 
         except Exception as e:
             st.error(f"Error loading JSON files: {e}")
-    
+
+    # Updated sidebar explanation
     with st.sidebar.expander("About Input Data"):
         st.write("""
-        This tab allows you to explore **parquet files** containing data for various combinations of countries and indicators. Here's how it works:
+        This tab allows you to explore and analyze data from multiple countries and indicators.
 
-        - **Country and Indicator Selection:**
-            - Choose a **Country** from the dropdown or select "All Countries" to include all available ones.
-            - Choose an **Indicator** from the dropdown or select "All Indicators" for a broader analysis.
+        - **Country & Indicator Selection:**  
+          - Use the multi-select dropdowns to choose specific countries and indicators.  
+          - If no specific country or indicator is selected, all options are included by default.
 
-        - **File Loading:**
-            - The system searches for parquet files in the `data/base` directory matching the selected parameters.
-            - For **All Countries**, it loads and aggregates data for the selected indicator across all countries.
-            - For **All Indicators**, it loads and aggregates data for the selected country across all indicators.
-            - For **All Countries** and **All Indicators**, it aggregates data across all available combinations.
+        - **Data Handling:**  
+          - The system dynamically loads `.parquet` files based on the selected country and indicator.  
+          - If "All Countries" or "All Indicators" is selected, data is aggregated across the chosen countries/indicators.
 
-        - **Output Table:**
-            - Displays the combined data in a clear, tabular format.
-            - Adds metadata columns like `Country` and `Indicator` for better traceability.
-            - If no data is found, a warning is displayed instead.
+        - **Results:**  
+          - The extracted data is displayed in a table.  
+          - If no matching data is found, a warning is displayed.
 
-        Use this tab to analyze and compare data across multiple countries and indicators easily!
+        Use this tab to explore data across different countries and indicators efficiently!
         """)
+
 
 
 
