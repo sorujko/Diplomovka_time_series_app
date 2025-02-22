@@ -97,7 +97,7 @@ def sidebar():
     st.sidebar.markdown("""
     **Author:** Juraj Hakoš  
     **University:** FHI EUBA  
-    **Field of Study:** IT / Economics
+    **Field of Study:**  IT / Economics  
     **CRZP:** [Your CRZP Link](#)  
     **Year:** 2025
     ____________

@@ -378,9 +378,10 @@ with tab4:
                 if selected_countries and selected_indicators:
                     combined_df = load_and_combine_data(selected_countries, selected_indicators)
                     combined_df.loc[combined_df["Indicator"].isin(["GDP (USD)"]), "Value"] /= 1_000_000_000
+                    combined_df["Year"] = combined_df["Year"].astype(str)
                     if combined_df is not None:
 
-                        st.dataframe(combined_df, width=600, height=250)
+                        st.dataframe(combined_df, width=600, height=500)
                     else:
                         st.error("No data found for the selected criteria.")
                 else:

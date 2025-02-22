@@ -33,11 +33,11 @@ with col5:
         st.empty()  # Placeholder for spacing
 
 # Create tabs
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3 = st.tabs([
     "📊 Model Line Graphs", 
     "📊 Line Graphs", 
     "📉 Autocorrelation Plots", 
-    "📦 Seasonal Decompose Plots"
+    #"📦 Seasonal Decompose Plots"
 ])
 
 def generate_and_display_image(folder, graph_type, country, indicator, model_type=None):
@@ -172,14 +172,15 @@ with tab2:
     generate_and_display_image("plot", "Line", selected_country, selected_indicator)
 
 # Tab 3: Autocorrelation Plots
+
 with tab3:
     #st.header("📉 Autocorrelation Plots")
     generate_and_display_image("autocor_plot", "Autocor", selected_country, selected_indicator)
-
+"""
 # Tab 4: Seasonal Decompose Plots
 with tab4:
     #st.header("📦 Seasonal Decompose Plots")
     generate_and_display_image("season_decompose", "Seasonality", selected_country, selected_indicator)
-
+"""
 with st.sidebar.expander("ℹ️ Important Notes"):
     st.write("1. Do not combine 'All_Countries' with 'all_indicators'. This combination is not supported and will not work.")
