@@ -101,8 +101,8 @@ def sidebar():
     **CRZP:** [Your CRZP Link](#)  
     **Year:** 2025
     ____________
-    GitHub (this app) : [click](https://github.com/sorujko/Diplomovka_time_series)  
-    GitHub (models) : [click](https://github.com/sorujko/Diplomovka_time_series_app)  
+    GitHub (this app) : [click](https://github.com/sorujko/Diplomovka_time_series_app)  
+    GitHub (models) : [click](https://github.com/sorujko/Diplomovka_time_series)  
     LinkedIn : [click](https://www.linkedin.com/in/juraj-hakos1/)
     """)
 
