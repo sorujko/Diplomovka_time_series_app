@@ -16,11 +16,10 @@ with col1:
     st.page_link("pages/🖼️Graph_gallery.py", label="**Graph Gallery**", icon="🖼️")
 
 with col2:
-    st.page_link("Home_page.py", label="**Home**")
+    st.page_link("pages/⚔️Data_Wars.py", label="**Data Wars**", icon="⚔️")
 
- 
 with col3:
-        st.empty()  # Placeholder for spacing
+        st.page_link("Home_page.py", label="**Home**")
 
 with col4:
         st.empty()  # Placeholder for spacing

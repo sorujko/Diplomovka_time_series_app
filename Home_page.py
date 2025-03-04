@@ -24,13 +24,11 @@ def main():
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.page_link("pages/🕵Data_exploration.py", label="**Data Exploration**", icon="🕵️")
-
-
     with col2:
         st.page_link("pages/🖼️Graph_gallery.py", label="**Graph Gallery**", icon="🖼️")
  
     with col3:
-        st.empty()  # Placeholder for spacing
+        st.page_link("pages/⚔️Data_Wars.py", label="**Data Wars**", icon="⚔️")
 
     with col4:
         st.empty()  # Placeholder for spacing
