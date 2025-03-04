@@ -46,27 +46,61 @@ with open(countries_file, 'r') as f:
 
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs(["🤺 1 vs 1", "🚀 Result_comparison", "📝 Order_quesser"])
+tab1, tab2 = st.tabs(["🤺 1 vs 1", "🚀 Result_comparison"])
 
 import streamlit as st
 import pandas as pd
 import glob
 import os
+import random
 
 with tab1:
-    model_types = ["", "ARIMA", "Holt-Winters", "XGBoost", "LSTM", "Prophet"]
+    model_types = ["ARIMA", "Holt-Winters", "XGBoost", "LSTM", "Prophet"]
     indicators_opt = list(indicators.keys())
     countries_opt = list(countries.keys())
+    if "random_model_1" not in st.session_state:
 
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        model_1 = st.selectbox("Select Model", options=model_types, key=74121)
-    with col2:
-        model_2 = st.selectbox("Select Model", options=model_types, key=74133)
-    with col3:
-        indicator_selected = st.selectbox("Select Indicator", options=indicators_opt, key=741299)
-    with col4:
-        country_selected = st.selectbox("Select Country", options=countries_opt, key=7412992)
+        random_model_1 = random.choice(model_types)
+        random_model_2 = random.choice(model_types)
+        random_country_index = random.randint(1, len(countries_opt) - 1)
+        random_indicator_index = random.randint(1, len(indicators_opt) - 1)
+
+        while random_model_2 == random_model_1:
+            random_model_2 = random.choice(model_types)
+
+        # Store the random selections in session state
+        st.session_state.random_model_1 = random_model_1
+        st.session_state.random_model_2 = random_model_2
+        st.session_state.random_country_index = random_country_index
+        st.session_state.random_indicator_index = random_indicator_index
+    else:
+        # Use previously stored selections
+        random_model_1 = st.session_state.random_model_1
+        random_model_2 = st.session_state.random_model_2
+        random_country_index = st.session_state.random_country_index
+        random_indicator_index = st.session_state.random_indicator_index
+
+
+    # Stylish table-like display with headers for Indicator and Country
+    st.markdown(f"""
+    <div style="width: 50%; margin: 0 auto; text-align: center; padding: 20px 0;">
+        <table style="width: 100%; border: 1px solid #ccc; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color:rgb(54, 56, 58); color: white; font-size: 18px; font-weight: bold;">
+                    <th style="padding: 0px;">Indicator</th>
+                    <th style="padding: 0px;">Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 5px; font-size: 16px; color: #0073e6; text-align: center;">{indicators_opt[random_indicator_index]}</td>
+                    <td style="padding: 5px; font-size: 16px; color: #28a745; text-align: center;">{countries_opt[random_country_index]}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
 
     # Get the most recent file
     folder_path = "data/final/log_files"
@@ -80,30 +114,44 @@ with tab1:
 
     # Load data
     df = pd.read_csv(latest_file)
-    df = df.loc[(df['Country'] == country_selected) & (df['Indicator'] == indicator_selected)]
+    df = df.loc[(df['Country'] == countries_opt[random_country_index]) & (df['Indicator'] == indicators_opt[random_indicator_index])]
 
-    
+    if random_model_1 and random_model_2 and random_model_1 != random_model_2:
 
-    if model_1 and model_2 and model_1 != model_2:
+        # Create 7 columns with specific relative widths
+        col1, col2, col3, col4, col5, col6 = st.columns([2, 2, 1, 1, 3, 1])
+        
+        # Track if either button has been clicked
+        if 'button_pressed' not in st.session_state:
+            st.session_state['button_pressed'] = False
+        else:
+            st.session_state['button_pressed'] = True
 
-        col1, col2, col3, col4, col5, col6 = st.columns(6)
-        with col1:
-            st.empty()
         with col2:
-            st.empty()
+            # Disable both buttons if any of them has been pressed
+            disable_buttons = st.session_state['button_pressed']
+            
+            if st.button('Try again'):
+                # Reset all session state variables and enable buttons again
+                for key in list(st.session_state.keys()):
+                    del st.session_state[key]
+                st.rerun()
+
         with col3:
-            show_real_table = st.button("Show Real Data")
+            chosen_1 = st.button(f"{random_model_1}", disabled=disable_buttons)
+            if chosen_1 and st.session_state['button_pressed'] == False :
+                st.session_state['button_pressed'] = True  # Disable both buttons after first click
+
         with col4:
-            quess = st.selectbox("Make a quess", options=[model_1,model_2], key=7412996)
-        with col5:
-            st.empty()
-        with col6:
-            st.empty()
+            chosen_2 = st.button(f"{random_model_2}", key=113, disabled=disable_buttons)
+            if chosen_2 and st.session_state['button_pressed'] == False:
+                st.session_state['button_pressed'] = True  # Disable both buttons after first click
+        
         
 
-        model_1_df = df.loc[df['Model'] == model_1, ['Model', 'RMSE']].rename(columns={'Model': 'Model_1', 'RMSE': 'RMSE_1'})
-        model_2_df = df.loc[df['Model'] == model_2, ['RMSE', 'Model']].rename(columns={'Model': 'Model_2', 'RMSE': 'RMSE_2'})
-        if indicator_selected == "GDP (USD)":
+        model_1_df = df.loc[df['Model'] == random_model_1, ['Model', 'RMSE']].rename(columns={'Model': 'Model_1', 'RMSE': 'RMSE_1'})
+        model_2_df = df.loc[df['Model'] == random_model_2, ['RMSE', 'Model']].rename(columns={'Model': 'Model_2', 'RMSE': 'RMSE_2'})
+        if indicators_opt[random_indicator_index] == "GDP (USD)":
 
             model_1_df['RMSE_1'] = model_1_df['RMSE_1'] / 1_000_000_000  # Divide by 1 billion
             model_2_df['RMSE_2'] = model_2_df['RMSE_2'] / 1_000_000_000  # Divide by 1 billion
@@ -121,13 +169,7 @@ with tab1:
                 rmse_1 = row["RMSE_1"]
                 rmse_2 = row["RMSE_2"]
                 
-                # Check if RMSE values and guesses are correct
-                if rmse_1 < rmse_2 and quess == row["Model_1"]:
-                    spravna_odpoved = True
-                elif rmse_1 > rmse_2 and quess == row["Model_2"]:
-                    spravna_odpoved = True
-                else:
-                    spravna_odpoved = False
+                
                 
 
         # Add the dummy table HTML structure
@@ -171,7 +213,7 @@ with tab1:
 
         table_html_2 += "</table>"
 
-        if not show_real_table:
+        if not chosen_1 and not chosen_2:
             # Display the dummy table first with "?" placeholders
             st.markdown(table_html_2, unsafe_allow_html=True)
 
@@ -227,7 +269,15 @@ with tab1:
 
         table_html += "</table>"
 
-        if show_real_table:
+        if chosen_1 or chosen_2:
+            
+            # Check if RMSE values and guesses are correct
+            if rmse_1 < rmse_2 and chosen_1:
+                spravna_odpoved = True
+            elif rmse_1 > rmse_2 and chosen_2:
+                spravna_odpoved = True
+            else:
+                spravna_odpoved = False
     # Display the real table with RMSE values and comparison
             st.markdown(table_html, unsafe_allow_html=True)
             
@@ -290,8 +340,8 @@ with tab2:
     file_labels = [f.split("log_")[1].replace(".csv", "") for f in files]
 
     # File selectors
-    x = st.selectbox("Select first file", options=files, format_func=lambda f: f.split("log_")[1].replace(".csv", ""), index=0)
-    y = st.selectbox("Select second file", options=files, format_func=lambda f: f.split("log_")[1].replace(".csv", ""), index=1)
+    x = st.selectbox("Select first file", options=files, format_func=lambda f: f.split("log_")[1].replace(".csv", ""), index=0, key = 877)
+    y = st.selectbox("Select second file", options=[f for f in files if f != x], format_func=lambda f: f.split("log_")[1].replace(".csv", ""), index=1, key = 876)
 
     # Load the CSV files
     x_df = pd.read_csv(x)
@@ -329,10 +379,5 @@ with tab2:
     choices = [time_x, time_y]
     z['Winner'] = np.select(conditions, choices, default='Remíza')
     z = z.drop('Model', axis=1)
-
     st.dataframe(z)
-
-
-
-
     
