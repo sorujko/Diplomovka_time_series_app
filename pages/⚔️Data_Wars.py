@@ -54,6 +54,21 @@ import glob
 import os
 import random
 
+with st.sidebar.expander("About 1 vs 1"):
+                st.write("""
+    In this section, you can make a guess what model performs better for randomly chosen **country** and **indicator**.
+
+    - **Press the button:**  
+      - Press the button with model name you believe performed better for this country - indicator combination
+
+    - **Result:**  
+      - After you press button table will reveal it's content and you will see if you guessed correctly 
+
+    - **Play again:**  
+      - Press the Try again button to play again.
+
+    """)
+
 with tab1:
     model_types = ["ARIMA", "Holt-Winters", "XGBoost", "LSTM", "Prophet"]
     indicators_opt = list(indicators.keys())
@@ -83,12 +98,12 @@ with tab1:
 
     # Stylish table-like display with headers for Indicator and Country
     st.markdown(f"""
-    <div style="width: 50%; margin: 0 auto; text-align: center; padding: 20px 0;">
-        <table style="width: 100%; border: 1px solid #ccc; border-collapse: collapse;">
+    <div style="width:600px; margin: 0 auto; text-align: center; padding: 20px 0;">
+        <table style="width: 600px; border: 1px solid #ccc; border-collapse: collapse; table-layout: fixed;">
             <thead>
                 <tr style="background-color:rgb(54, 56, 58); color: white; font-size: 18px; font-weight: bold;">
-                    <th style="padding: 0px;">Indicator</th>
-                    <th style="padding: 0px;">Country</th>
+                    <th style="padding: 5px; width: 50%;">Indicator</th>
+                    <th style="padding: 5px; width: 50%;">Country</th>
                 </tr>
             </thead>
             <tbody>
@@ -136,11 +151,19 @@ with tab1:
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.rerun()
-
+        # Custom CSS for wider buttons
+        
         with col3:
             chosen_1 = st.button(f"{random_model_1}", disabled=disable_buttons)
             if chosen_1 and st.session_state['button_pressed'] == False :
                 st.session_state['button_pressed'] = True  # Disable both buttons after first click
+        st.markdown("""
+            <style>
+                .stButton > button {
+                    width: 110px;
+                }
+            </style>
+        """, unsafe_allow_html=True)
 
         with col4:
             chosen_2 = st.button(f"{random_model_2}", key=113, disabled=disable_buttons)
@@ -173,18 +196,21 @@ with tab1:
                 
 
         # Add the dummy table HTML structure
-        table_html_2 ="""
+        table_html_2 = """
             <style>
             .center-table-2 { 
                 margin: auto; 
-                width: 60%; 
+                width: 600px; /* Set a fixed width */
                 border-collapse: collapse;
                 text-align: center;
                 font-family: Arial, sans-serif;
+                table-layout: fixed; /* Ensures fixed column widths */
             }
             .center-table-2 th, .center-table-2 td {
                 border: 1px solid black;
                 padding: 10px;
+                width: 120px; /* Set fixed column width */
+                word-wrap: break-word; /* Prevents overflow */
             }
             .center-table-2 th {
                 background-color: #333;
@@ -222,14 +248,17 @@ with tab1:
             <style>
             .center-table { 
                 margin: auto; 
-                width: 60%; 
+                width: 600px; 
                 border-collapse: collapse;
                 text-align: center;
                 font-family: Arial, sans-serif;
+                table-layout: fixed; /* Ensures fixed column widths */
             }
             .center-table th, .center-table td {
                 border: 1px solid black;
                 padding: 10px;
+                width: 120px; /* Set fixed column width */
+                word-wrap: break-word; /* Prevents overflow */
             }
             .center-table th {
                 background-color: #333;
@@ -309,6 +338,8 @@ with tab1:
             st.markdown(message_style, unsafe_allow_html=True)
             st.markdown(f'<p class="{ "good-guess" if spravna_odpoved else "bad-guess" }">{message}</p>', unsafe_allow_html=True)
 
+            
+
 
 
 with tab2:
@@ -380,4 +411,25 @@ with tab2:
     z['Winner'] = np.select(conditions, choices, default='Remíza')
     z = z.drop('Model', axis=1)
     st.dataframe(z)
+
+with st.sidebar.expander("About Model Comparison"):
+        st.write("""
+    In this section, you can compare RMSE values of different forecasting models for selected **countries** and **indicators**. Here's how it works:
+
+    - **Filters:**  
+      - Select one  **country**.  
+      - Choose one **indicator** (e.g., GDP, inflation).  
+      - Pick a **forecasting model** from available options (ARIMA, Holt-Winters, XGBoost, LSTM, Prophet).  
+
+    - **File Selection:**  
+      - You can select two different error log files containing RMSE values from different training runs.  
+      - The most recent file is pre-selected, but you can choose any available logs.  
+
+    - **Output:**  
+      - A table displaying RMSE values for both selected files.  
+      - RMSE difference between the two files.  
+      - The **better-performing model** for each country and indicator based on RMSE comparison.  
+
+    Use the filters and selectors to analyze forecasting performance across different models and datasets!
+    """)
     
